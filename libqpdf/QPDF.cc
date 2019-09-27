@@ -2721,6 +2721,29 @@ QPDF::getCompressibleObjGens()
 	}
     }
 
+    std::vector<QPDFObjGen> exclude_items;
+    for (std::vector<QPDFObjGen>::iterator iter = result.begin();
+	 iter != result.end(); ++iter)
+    {
+	QPDFObjectHandle item = getObjectByObjGen (*iter);
+
+	if (item.isDictionary() &&
+	    item.hasKey("/ByteRange") &&
+	    item.hasKey("/Contents") &&
+	    item.hasKey("/Type") &&
+	    item.getKey("/Type").isName() &&
+	    item.getKey("/Type").getName() == "/Sig")
+	{
+	    exclude_items.push_back(*iter);
+	}
+    }
+    for (std::vector<QPDFObjGen>::iterator iter = exclude_items.begin();
+	 iter != exclude_items.end(); ++iter)
+    {
+	result.erase(std::remove(result.begin(), result.end(), *iter),
+		     result.end());
+    }
+
     return result;
 }
 
