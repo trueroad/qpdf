@@ -2620,6 +2620,12 @@ QPDF::getRoot()
     return root;
 }
 
+std::map<QPDFObjGen, QPDFXRefEntry> const&
+QPDF::getXRefTable() const
+{
+    return this->m->xref_table;
+}
+
 void
 QPDF::getObjectStreamData(std::map<int, int>& omap)
 {

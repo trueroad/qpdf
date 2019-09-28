@@ -239,6 +239,8 @@ class QPDF
     QPDFObjectHandle getTrailer();
     QPDF_DLL
     QPDFObjectHandle getRoot();
+    QPDF_DLL
+    std::map<QPDFObjGen, QPDFXRefEntry> const& getXRefTable() const;
 
     // Install this object handle as an indirect object and return an
     // indirect reference to it.
