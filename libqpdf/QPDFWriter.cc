@@ -2730,6 +2730,12 @@ QPDFWriter::getRenumberedObjectID(QPDFObjGen og)
     return this->m->obj_renumber[og];
 }
 
+std::map<int, QPDFXRefEntry>
+QPDFWriter::getWrittenXRefTable()
+{
+    return this->m->xref;
+}
+
 void
 QPDFWriter::enqueuePart(std::vector<QPDFObjectHandle>& part)
 {

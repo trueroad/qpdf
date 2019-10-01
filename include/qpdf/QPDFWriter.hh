@@ -470,6 +470,11 @@ class QPDFWriter
     QPDF_DLL
     int getRenumberedObjectID(QPDFObjGen);
 
+    // Return XRef entry that was written into the final file.
+    // This method can be used after calling write().
+    QPDF_DLL
+    std::map<int, QPDFXRefEntry> getWrittenXRefTable();
+
   private:
     // flags used by unparseObject
     static int const f_stream = 	1 << 0;
