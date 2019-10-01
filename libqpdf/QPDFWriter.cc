@@ -2724,6 +2724,12 @@ QPDFWriter::write()
     indicateProgress(false, true);
 }
 
+int
+QPDFWriter::getRenumberedObjectID(QPDFObjGen og)
+{
+    return this->m->obj_renumber[og];
+}
+
 void
 QPDFWriter::enqueuePart(std::vector<QPDFObjectHandle>& part)
 {
