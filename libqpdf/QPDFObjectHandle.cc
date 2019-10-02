@@ -2160,6 +2160,7 @@ QPDFObjectHandle::parseInternal(PointerHolder<InputSource> input,
                 object = newDictionary(dict);
                 setObjectDescriptionFromInput(
                     object, context, object_description, input, offset);
+                object.setParsedOffset(offset - 2);
             }
             olist_stack.pop_back();
             offset_stack.pop_back();
