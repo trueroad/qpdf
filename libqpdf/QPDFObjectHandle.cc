@@ -2054,6 +2054,7 @@ QPDFObjectHandle::parseInternal(PointerHolder<InputSource> input,
             setObjectDescriptionFromInput(
                 object, context, object_description, input,
                 input->getLastOffset());
+            object.setParsedOffset(input->getLastOffset());
             olist.append(object);
             break;
 
@@ -2177,6 +2178,7 @@ QPDFObjectHandle::parseInternal(PointerHolder<InputSource> input,
 
     setObjectDescriptionFromInput(
         object, context, object_description, input, offset);
+    object.setParsedOffset(offset);
     return object;
 }
 
