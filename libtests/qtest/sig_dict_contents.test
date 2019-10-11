@@ -1,0 +1,28 @@
+#!/usr/bin/env perl
+require 5.008;
+BEGIN { $^W = 1; }
+use strict;
+
+chdir("sig_dict_contents") or die "chdir testdir failed: $!\n";
+
+require TestDriver;
+
+my $td = new TestDriver('sig_dict_contents');
+
+$td->runtest("--object-streams=preserve",
+	     {$td->COMMAND =>
+		  "sig_dict_contents " .
+		  "--object-streams=preserve input-signed.pdf hex.txt"},
+	     {$td->STRING => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("--object-streams=disable",
+	     {$td->COMMAND =>
+		  "sig_dict_contents " .
+		  "--object-streams=disable input-signed.pdf hex.txt"},
+	     {$td->STRING => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->report(2);

@@ -23,6 +23,7 @@ BINS_libtests = \
 	rc4 \
 	runlength \
 	sha2 \
+	sig_dict_contents \
 	sparse_array
 
 TARGETS_libtests = $(foreach B,$(BINS_libtests),libtests/$(OUTPUT_DIR)/$(call binname,$(B)))
