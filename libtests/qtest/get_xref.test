@@ -1,0 +1,24 @@
+#!/usr/bin/env perl
+require 5.008;
+BEGIN { $^W = 1; }
+use strict;
+
+chdir("get_xref") or die "chdir testdir failed: $!\n";
+
+require TestDriver;
+
+my $td = new TestDriver('get_xref');
+
+$td->runtest("with object streams",
+	     {$td->COMMAND => "get_xref input-signed.pdf"},
+	     {$td->FILE => "input-signed-xref.txt",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("without object streams",
+	     {$td->COMMAND => "get_xref input.pdf"},
+	     {$td->FILE => "input-xref.txt",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->report(2);

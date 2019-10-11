@@ -8,6 +8,7 @@ BINS_libtests = \
 	dct_compress \
 	dct_uncompress \
 	flate \
+	get_xref \
 	hex \
 	input_source \
 	json \
