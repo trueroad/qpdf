@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+require 5.008;
+BEGIN { $^W = 1; }
+use strict;
+
+chdir("get_renumber") or die "chdir testdir failed: $!\n";
+
+require TestDriver;
+
+my $td = new TestDriver('get_renumber');
+
+$td->runtest("w/o objstm",
+	     {$td->COMMAND => "get_renumber input.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("w/ objstm",
+	     {$td->COMMAND => "get_renumber input-signed.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("w/o objstm, --object-streams=generate",
+	     {$td->COMMAND =>
+		  "get_renumber --object-streams=generate input.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("w/ objstm, --object-streams=generate",
+	     {$td->COMMAND =>
+		  "get_renumber --object-streams=generate input-signed.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("w/o objstm, --linearize",
+	     {$td->COMMAND =>
+		  "get_renumber --linearize input.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("w/ objstm, --linearize",
+	     {$td->COMMAND =>
+		  "get_renumber --linearize input-signed.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("w/o objstm, --preserve-unreferenced",
+	     {$td->COMMAND =>
+		  "get_renumber --preserve-unreferenced input.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->runtest("w/ objstm, --preserve-unreferenced",
+	     {$td->COMMAND =>
+		  "get_renumber --preserve-unreferenced input-signed.pdf"},
+	     {$td->REGEXP => "succeeded\n",
+	      $td->EXIT_STATUS => 0},
+	     $td->NORMALIZE_NEWLINES);
+
+$td->report(8);
