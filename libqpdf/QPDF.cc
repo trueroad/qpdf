@@ -155,6 +155,7 @@ QPDF::Members::Members() :
     fixed_dangling_refs(false),
     immediate_copy_from(false),
     in_parse(false),
+    parsed(false),
     first_xref_item_offset(0),
     uncompressed_after_compressed(false)
 {
@@ -431,6 +432,7 @@ QPDF::parse(char const* password)
 
     initializeEncryption();
     findAttachmentStreams();
+    this->m->parsed = true;
 }
 
 void
@@ -2620,6 +2622,17 @@ QPDF::getRoot()
     return root;
 }
 
+std::map<QPDFObjGen, QPDFXRefEntry>
+QPDF::getXRefTable()
+{
+    if (! this->m->parsed)
+    {
+	throw std::logic_error("QPDF::getXRefTable called before parsing.");
+    }
+
+    return this->m->xref_table;
+}
+
 void
 QPDF::getObjectStreamData(std::map<int, int>& omap)
 {
@@ -2673,7 +2686,13 @@ QPDF::getCompressibleObjGens()
 	    {
 		QTC::TC("qpdf", "QPDF exclude encryption dictionary");
 	    }
-	    else if (! obj.isStream())
+	    else if (! obj.isStream() &&
+		     ! (obj.isDictionary() &&
+			obj.hasKey("/ByteRange") &&
+			obj.hasKey("/Contents") &&
+			obj.hasKey("/Type") &&
+			obj.getKey("/Type").isName() &&
+			obj.getKey("/Type").getName() == "/Sig"))
 	    {
 		result.push_back(og);
 	    }
