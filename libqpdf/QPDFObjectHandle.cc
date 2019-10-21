@@ -2112,8 +2112,12 @@ QPDFObjectHandle::parseInternal(PointerHolder<InputSource> input,
                 object = QPDFObjectHandle(new QPDF_Array(olist));
                 setObjectDescriptionFromInput(
                     object, context, object_description, input, offset);
-                // The `offset` points to the next of "[".
-                // Set the rewind offset to point to the beginning of "[".
+                // The `offset` points to the next of "[". Set the
+                // rewind offset to point to the beginning of "[".
+                // This has been explicitly tested with whitespace
+                // surrounding the array start delimiter.
+                // getLastOffset points to the array end token and
+                // therefore can't be used here.
                 object.setParsedOffset(offset - 1);
                 set_offset = true;
             }
@@ -2207,8 +2211,12 @@ QPDFObjectHandle::parseInternal(PointerHolder<InputSource> input,
                 object = newDictionary(dict);
                 setObjectDescriptionFromInput(
                     object, context, object_description, input, offset);
-                // The `offset` points to the next of "<<".
-                // Set the rewind offset to point to the beginning of "<<".
+                // The `offset` points to the next of "<<". Set the
+                // rewind offset to point to the beginning of "<<".
+                // This has been explicitly tested with whitespace
+                // surrounding the dictionary start delimiter.
+                // getLastOffset points to the dictionary end token
+                // and therefore can't be used here.
                 object.setParsedOffset(offset - 2);
                 set_offset = true;
             }
